@@ -36,9 +36,18 @@ def add_user():
     conn.close()
     return jsonify({"message": "User added"}), 201
 
-@app.route("/hello")
-def hello():
-    return "Hello Kushal! 🚀"
+@app.route("/count")
+def count_users():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT COUNT(*) FROM users")
+    count = cursor.fetchone()[0]
+
+    cursor.close()
+    connection.close()
+
+    return {"total_users": count}
 
 
 if __name__ == "__main__":
