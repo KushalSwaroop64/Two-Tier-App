@@ -15,7 +15,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/your-org/two-tier-app.git'
+                    url: 'https://github.com/KushalSwaroop64/Two-Tier-App'
             }
         }
 
