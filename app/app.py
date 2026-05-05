@@ -48,7 +48,7 @@ def calculator():
         elif op == "sub":
             result = a - b
         elif op == "mul":
-            result = a * b
+            result = a ** b
         elif op == "div":
             result = a / b
         else:
