@@ -36,5 +36,10 @@ def add_user():
     conn.close()
     return jsonify({"message": "User added"}), 201
 
+@app.route("/hello")
+def hello():
+    return "Hello Kushal! 🚀"
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
