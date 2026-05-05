@@ -36,18 +36,20 @@ def add_user():
     conn.close()
     return jsonify({"message": "User added"}), 201
 
-@app.route("/count")
-def count_users():
-    connection = get_db_connection()
-    cursor = connection.cursor()
+@app.route("/user/<int:user_id>")
+def get_user(user_id):
+    conn = get_db()
+    cursor = conn.cursor(dictionary=True)
 
-    cursor.execute("SELECT COUNT(*) FROM users")
-    count = cursor.fetchone()[0]
+    cursor.execute("SELECT * FROM users WHERE id=%s", (user_id,))
+    user = cursor.fetchone()
 
-    cursor.close()
-    connection.close()
+    conn.close()
 
-    return {"total_users": count}
+    if user:
+        return jsonify(user)
+    else:
+        return {"message": "User not found"}, 404
 
 
 if __name__ == "__main__":
