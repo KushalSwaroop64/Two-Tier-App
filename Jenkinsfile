@@ -3,11 +3,11 @@ pipeline {
 
     environment {
         IMAGE_NAME = "two-tier-flask"
-        DB_PASSWORD = credentials('db-password')   // stored in Jenkins credentials
+        DB_PASSWORD = credentials('db-password')
     }
 
     triggers {
-        githubPush()     // auto-trigger on every push
+        githubPush()
     }
 
     stages {
@@ -15,15 +15,16 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/KushalSwaroop64/Two-Tier-App'
+                    url: 'https://github.com/KushalSwaroop64/Two-Tier-App.git'
             }
         }
 
         stage('Install & Test') {
             steps {
                 sh '''
-                    pip install -r app/requirements.txt
-                    pytest app/tests/ --tb=short -v
+                    python3 -m pip install --upgrade pip
+                    python3 -m pip install -r app/requirements.txt
+                    python3 -m pytest app/tests/ --tb=short -v
                 '''
             }
         }
@@ -51,7 +52,7 @@ pipeline {
             echo "Deployment successful — build #${BUILD_NUMBER}"
         }
         failure {
-            echo "Pipeline failed — check test output above"
+            echo "Pipeline failed — check logs above"
         }
     }
 }
