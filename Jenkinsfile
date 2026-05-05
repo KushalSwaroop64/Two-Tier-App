@@ -31,14 +31,18 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} ."
-                sh "docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${IMAGE_NAME}:latest"
+                sh '''
+                    export PATH=/usr/local/bin:$PATH
+                    docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
+                    docker tag ${IMAGE_NAME}:${BUILD_NUMBER} ${IMAGE_NAME}:latest
+                '''
             }
         }
 
         stage('Deploy') {
             steps {
                 sh '''
+                    export PATH=/usr/local/bin:$PATH
                     export DB_PASSWORD=${DB_PASSWORD}
                     docker compose down --remove-orphans
                     docker compose up -d --build
