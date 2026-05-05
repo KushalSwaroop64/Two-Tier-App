@@ -36,7 +36,28 @@ def add_user():
     conn.close()
     return jsonify({"message": "User added"}), 201
 
+@app.route("/calc")
+def calculator():
+    try:
+        a = float(request.args.get("a"))
+        b = float(request.args.get("b"))
+        op = request.args.get("op")
 
+        if op == "add":
+            result = a + b
+        elif op == "sub":
+            result = a - b
+        elif op == "mul":
+            result = a * b
+        elif op == "div":
+            result = a / b
+        else:
+            return {"error": "Invalid operation"}, 400
+
+        return {"result": result}
+
+    except:
+        return {"error": "Invalid input"}, 400
 
 
 if __name__ == "__main__":
