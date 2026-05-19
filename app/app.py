@@ -34,7 +34,7 @@ def add_user():
                    (data["name"], data["email"]))
     conn.commit()
     conn.close()
-    return jsonify({"message": "add"}), 201
+    return jsonify({"message": "add file"}), 201
 
 
 
